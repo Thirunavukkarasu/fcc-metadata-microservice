@@ -1,0 +1,12 @@
+doctype html
+html(lang='en')
+    head
+        title MetaData microservice
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+    body
+        div.container
+            p Submit a file to view its filesize.
+            form(action="/getFileSize",method="post",enctype="multipart/form-data")
+                input(type="file",name="userFile")
+                br
+                input(type="submit")

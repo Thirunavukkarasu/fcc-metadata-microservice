@@ -8,10 +8,17 @@ function getFileSize(req, res){
 	var upload = multer({
         storage : multer.diskStorage({
             destination: function(req, file, callback) {
-                callback(null, './uploads')
+                callback(null, 'uploads/')
             },
             filename: function(req, file, callback) {
-                callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+                var getFileExt = function(fileName) {
+                  var fileExt = fileName.split(".");
+                  if (fileExt.length === 1 || (fileExt[0] === "" && fileExt.length === 2)) {
+                    return "";
+                  }
+                  return fileExt.pop();
+                };
+                callback(null, Date.now() + '.' + getFileExt(file.originalname));
             }
         })
     }).single('userFile');
@@ -22,7 +29,7 @@ function getFileSize(req, res){
             return res.send(err);
         }
 
-        //fs.unlinkSync('./uploads/'+req.file.filename);
+        fs.unlinkSync('./uploads/'+req.file.filename);
         res.send({
             size : req.file.size
         });
